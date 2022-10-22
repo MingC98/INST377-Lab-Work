@@ -156,6 +156,7 @@
     /* colors */
     background-color: #7D80DA;
     color: #a1b934;
+    border: 2px dashed;
   
     /* shapes */
     border-radius: 6px;
@@ -217,6 +218,7 @@
     flex-shrink: 0;
     padding: 1rem;
     background-color: rgba(137, 10, 184, 0.8);
+    border: 2px dashed;
     font-size: 1.2rem;
     font-weight: 600;
   }

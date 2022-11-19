@@ -117,7 +117,7 @@ async function mainEvent() {
     loadAnimation.classList.add('lds-ellipsis_hidden');
 
     // And here's an eventListener! It's listening for a "submit" button specifically being clicked
-    // this is a synchronous event event, because we already did our async request above, and waited for it to resolve
+    // this is a synchronous event event, because we already did our async request above, and waited for it to resolve   
     form.addEventListener('submit', (submitEvent) => {
       // This is needed to stop our page from changing to a new URL even though it heard a GET request
       submitEvent.preventDefault();

@@ -72,6 +72,21 @@ function processRestaurants(list) {
   */
 }
 
+function initMap() {
+  console.log('initMap');
+  const map = L.map('map').setView([38.9897, -76.9378], 13);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+  return map;
+}
+
+function markerPlace(array,map) {
+  console.log('markerPlace',array);
+  const marker = L.marker([51.5, -0.09]).addTo(map);
+}
+
 async function mainEvent() {
   /*
     ## Main Event
@@ -79,6 +94,7 @@ async function mainEvent() {
       When you're not working in a heavily-commented "learning" file, this also is more legible
       If you separate your work, when one piece is complete, you can save it and trust it
   */
+  const page = initMap();
 
   // the async keyword means we can make API requests
   const form = document.querySelector('.main_form'); // get your main form so you can do JS with it
@@ -127,6 +143,7 @@ async function mainEvent() {
 
       // And this function call will perform the "side effect" of injecting the HTML list for you
       injectHTML(restaurantList);
+      markerPlace(restaurantList, pageMap);
 
       // By separating the functions, we open the possibility of regenerating the list
       // without having to retrieve fresh data every time

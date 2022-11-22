@@ -47,10 +47,10 @@ function injectHTML(list) {
 function processRestaurants(list) {
   console.log('fired restaurants list');
   const range = [...Array(15).keys()];
-  const newArray = range.map((item)=>{
+  const newArray = range.map((item) => {
     const index = getRandomIntInclusive(0,list.length);
     return list[index];
-  })
+  });
   return newArray;
   /*
     ## Process Data Separately From Injecting It
@@ -72,6 +72,15 @@ function processRestaurants(list) {
   */
 }
 
+function filterList(array, filterInputValue) {
+  return newArray = array.filter((item) => {
+    if (!item.name) { return; }
+    const lowerCaseName = item.name.toLowerCase();
+    const lowerCaseQuery = filterInputValue.toLowerCase();
+    return lowerCaseName.includes(lowerCaseQuery);
+  });
+}
+
 function initMap() {
   console.log('initMap');
   const map = L.map('map').setView([38.9897, -76.9378], 13);
@@ -83,8 +92,19 @@ function initMap() {
 }
 
 function markerPlace(array,map) {
-  console.log('markerPlace',array);
-  const marker = L.marker([51.5, -0.09]).addTo(map);
+  map.eachLayer((layer) => {
+    if (layer instanceof L.Marker) {
+      layer.remove();
+    }
+  });
+  array.forEach((item, index) => {
+    const {coordinates} = item.geocoded_column_1;
+    // console.log(item);
+    L.marker([coordinates[1], coordinates[0]]).addTo(map);
+    if (index === 0) {
+      map.setView([coordinates[1], coordinates[0]], 10);
+    }
+  });
 }
 
 async function mainEvent() {
@@ -94,7 +114,7 @@ async function mainEvent() {
       When you're not working in a heavily-commented "learning" file, this also is more legible
       If you separate your work, when one piece is complete, you can save it and trust it
   */
-  const page = initMap();
+  const pageMap = initMap();
 
   // the async keyword means we can make API requests
   const form = document.querySelector('.main_form'); // get your main form so you can do JS with it
@@ -116,7 +136,7 @@ async function mainEvent() {
     Dot notation is preferred in JS unless you have a good reason to use brackets
     The 'data' key, which we set at line 38 in foodServiceRoutes.js, contains all 1,000 records we need
   */
-  //console.table(arrayFromJson.data);
+  console.table(arrayFromJson.data);
 
   // in your browser console, try expanding this object to see what fields are available to work with
   // for example: arrayFromJson.data[0].name, etc
